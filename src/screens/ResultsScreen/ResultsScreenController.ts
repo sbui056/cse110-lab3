@@ -26,7 +26,7 @@ export class ResultsScreenController extends ScreenController {
 		this.view = new ResultsScreenView(() => this.handlePlayAgainClick());
 
 		// TODO: Task 4 - Initialize game over sound audio
-		this.gameOverSound = new Audio(); // Placeholder
+		this.gameOverSound = new Audio("/gameover.mp3");
 	}
 
 	/**
@@ -51,6 +51,8 @@ export class ResultsScreenController extends ScreenController {
 		this.view.show();
 
 		// TODO: Task 4 - Play the game over sound
+		this.gameOverSound.currentTime = 0;
+		this.gameOverSound.play();
 	}
 
 	/**
@@ -58,7 +60,17 @@ export class ResultsScreenController extends ScreenController {
 	 */
 	private loadLeaderboard(): LeaderboardEntry[] {
 		// TODO: Task 5 - Load leaderboard from localStorage
-		return []; // Placeholder
+// 		Get the item from localStorage using LEADERBOARD_KEY (localStorage.getItem(LEADERBOARD_KEY))
+// If it doesn't exist (null), return an empty array []
+// Parse the JSON string using JSON.parse() and cast to LeaderboardEntry[]
+// Return the array
+
+		const leaderboard = localStorage.getItem(LEADERBOARD_KEY);
+		if (leaderboard == null) {
+			return [];
+		}
+
+		return JSON.parse(leaderboard) as LeaderboardEntry[];
 	}
 
 	/**
@@ -66,6 +78,10 @@ export class ResultsScreenController extends ScreenController {
 	 */
 	private saveLeaderboard(entries: LeaderboardEntry[]): void {
 		// TODO: Task 5 - Save leaderboard to localStorage
+// 		Convert the entries array to a JSON string using JSON.stringify()
+// Save it to localStorage using localStorage.setItem(LEADERBOARD_KEY, jsonString)
+		const jsonString = JSON.stringify(entries);
+		localStorage.setItem(LEADERBOARD_KEY, jsonString);
 	}
 
 	/**
